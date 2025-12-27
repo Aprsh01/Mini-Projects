@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expand/Collapse Button</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+
+    /* Expand/Collapse All Button */
+    .expand-collapse-all-btn {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      padding: 0.875rem 2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-top: 1.5rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .expand-collapse-all-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .expand-collapse-all-btn::before {
+      content: "";
+      position: absolute;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0.2) 50%, transparent 100%);
+      width: 0;
+      height: 0;
+      left: var(--xPos, 50%);
+      top: var(--yPos, 50%);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      transition: width 0.6s ease-out, height 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    .expand-collapse-all-btn:hover::before {
+      width: 400px;
+      height: 400px;
+    }
+
+    .expand-collapse-all-btn.collapsed-state::before {
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.4) 0%, rgba(249, 115, 22, 0.2) 50%, transparent 100%);
+    }
+
+    .expand-collapse-all-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .expand-collapse-all-btn:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <button class="expand-collapse-all-btn" id="expandCollapseAllBtn" onclick="toggleAllVideos()">
+    <span>Expand All</span>
+  </button>
+
+  <script>
+    // Toggle all video sections
+    function toggleAllVideos() {
+      const btn = document.getElementById('expandCollapseAllBtn');
+      const btnSpan = btn.querySelector('span');
+      const isExpanding = btnSpan.textContent === 'Expand All';
+      
+      // Toggle button text and state
+      if (isExpanding) {
+        btnSpan.textContent = 'Collapse All';
+        btn.classList.add('collapsed-state');
+      } else {
+        btnSpan.textContent = 'Expand All';
+        btn.classList.remove('collapsed-state');
+      }
+    }
+
+    // Ripple effect for expand/collapse button
+    const expandBtn = document.getElementById('expandCollapseAllBtn');
+    if (expandBtn) {
+      expandBtn.addEventListener('mousemove', (event) => {
+        const rect = expandBtn.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        expandBtn.style.setProperty('--xPos', x + 'px');
+        expandBtn.style.setProperty('--yPos', y + 'px');
+      });
+    }
+  </script>
+</body>
+</html>
